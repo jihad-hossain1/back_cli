@@ -28,6 +28,22 @@ case $LANG_OPT in
     EXT="ts"
     ;;
   *) echo "❌ Invalid language option"; exit 1 ;;
+  *) echo "❌ Invalid language option"; exit 1 ;;
+esac
+
+# 2.1 HTTP Framework
+echo ""
+echo "Select HTTP Framework:"
+echo "1) Express.js"
+echo "2) Hono.js"
+echo "0) None"
+read -p "Enter choice (0-2): " FW_OPT
+
+case $FW_OPT in
+  1) FRAMEWORK="express" ;;
+  2) FRAMEWORK="hono" ;;
+  0) FRAMEWORK="none" ;;
+  *) echo "❌ Invalid framework option"; exit 1 ;;
 esac
 
 # 3. Database Type
@@ -36,60 +52,63 @@ echo "Select Database Type:"
 echo "1) mysql"
 echo "2) postgresql"
 echo "3) mongodb"
-read -p "Enter choice (1-3): " DB_OPT
+echo "0) Skip"
+read -p "Enter choice (0-3): " DB_OPT
 
 case $DB_OPT in
   1) DATABASE="mysql" ;;
   2) DATABASE="postgresql" ;;
   3) DATABASE="mongodb" ;;
+  0) DATABASE="none"; ORM="none" ;;
   *) echo "❌ Invalid database option"; exit 1 ;;
 esac
 
 # 4. ORM
-echo ""
-echo "Select ORM:"
+if [ "$DATABASE" != "none" ]; then
+  echo ""
+  echo "Select ORM:"
 
-if [ "$DATABASE" == "mysql" ]; then
-  # mysql -> drizzle, prisma, mysql2
-  echo "1) drizzle"
-  echo "2) prisma"
-  echo "3) mysql2"
-  read -p "Enter choice (1-3): " ORM_OPT
-  
-  case $ORM_OPT in
-    1) ORM="drizzle" ;;
-    2) ORM="prisma" ;;
-    3) ORM="mysql2" ;;
-    *) echo "❌ Invalid ORM option for MySQL"; exit 1 ;;
-  esac
+  if [ "$DATABASE" == "mysql" ]; then
+    # mysql -> drizzle, prisma, mysql2
+    echo "1) drizzle"
+    echo "2) prisma"
+    echo "3) mysql2"
+    read -p "Enter choice (1-3): " ORM_OPT
+    
+    case $ORM_OPT in
+      1) ORM="drizzle" ;;
+      2) ORM="prisma" ;;
+      3) ORM="mysql2" ;;
+      *) echo "❌ Invalid ORM option for MySQL"; exit 1 ;;
+    esac
 
-elif [ "$DATABASE" == "postgresql" ]; then
-  # postgresql -> drizzle, prisma
-  echo "1) drizzle"
-  echo "2) prisma"
-  read -p "Enter choice (1-2): " ORM_OPT
+  elif [ "$DATABASE" == "postgresql" ]; then
+    # postgresql -> drizzle, prisma
+    echo "1) drizzle"
+    echo "2) prisma"
+    read -p "Enter choice (1-2): " ORM_OPT
 
-  case $ORM_OPT in
-    1) ORM="drizzle" ;;
-    2) ORM="prisma" ;;
-    *) echo "❌ Invalid ORM option for PostgreSQL"; exit 1 ;;
-  esac
+    case $ORM_OPT in
+      1) ORM="drizzle" ;;
+      2) ORM="prisma" ;;
+      *) echo "❌ Invalid ORM option for PostgreSQL"; exit 1 ;;
+    esac
 
-elif [ "$DATABASE" == "mongodb" ]; then
-  # mongodb -> prisma, mongoose
-  echo "1) prisma"
-  echo "2) mongoose"
-  read -p "Enter choice (1-2): " ORM_OPT
+  elif [ "$DATABASE" == "mongodb" ]; then
+    # mongodb -> prisma, mongoose
+    echo "1) prisma"
+    echo "2) mongoose"
+    read -p "Enter choice (1-2): " ORM_OPT
 
-  case $ORM_OPT in
-    1) ORM="prisma" ;;
-    2) ORM="mongoose" ;;
-    *) echo "❌ Invalid ORM option for MongoDB"; exit 1 ;;
-  esac
-
+    case $ORM_OPT in
+      1) ORM="prisma" ;;
+      2) ORM="mongoose" ;;
+      *) echo "❌ Invalid ORM option for MongoDB"; exit 1 ;;
+    esac
+  fi
 else
-  echo "❌ Unknown database selected."
-  exit 1
+    # Ensure ORM is none if DB is none (redundant safety)
+    ORM="none"
 fi
 
 # 5. Project Pattern
@@ -126,7 +145,7 @@ echo "💻 Language : $LANG"
 # ----------------------------
 
 # Export variables for child scripts
-export PROJECT_NAME LANG EXT DATABASE ORM PATTERN GIT_OPT
+export PROJECT_NAME LANG EXT DATABASE ORM PATTERN GIT_OPT FRAMEWORK
 
 # Get script directory for reliable sourcing
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
