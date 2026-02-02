@@ -156,6 +156,8 @@ export PROJECT_NAME LANG EXT DATABASE ORM PATTERN GIT_OPT FRAMEWORK
 # Get script directory for reliable sourcing
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+source "$SCRIPT_DIR/scripts/config/repos.sh"
+
 source "$SCRIPT_DIR/scripts/init_projects/init_project.sh"
 source "$SCRIPT_DIR/scripts/setup_orm/setup_orm.sh"
 source "$SCRIPT_DIR/scripts/structure/structure.sh"

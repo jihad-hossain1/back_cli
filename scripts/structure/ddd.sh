@@ -9,7 +9,7 @@ mkdir -p src/shared/infra/{database,http,mapper,logging}
 mkdir -p src/shared/utils
 
 # 2. Modules (Example)
-MODULES=("user")
+MODULES=("user" "demo")
 
 for MODULE in "${MODULES[@]}"
 do

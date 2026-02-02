@@ -1,8 +1,15 @@
 #!/bin/bash
 MODULE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+UTILS_DIR="$MODULE_DIR/../../utils"
 
+# Choose Repo based on Language
 if [ "$LANG" == "typescript" ]; then
-  envsubst '$PATTERN $DATABASE' < "$MODULE_DIR/templates/typescript/main.ts" > "src/main.$EXT"
+    REPO_URL="$EXPRESS_TS_REPO"
+    BRANCH="$EXPRESS_TS_BRANCH"
 else
-  envsubst '$PATTERN $DATABASE' < "$MODULE_DIR/templates/javascript/main.js" > "src/main.$EXT"
+    REPO_URL="$EXPRESS_REPO"
+    BRANCH="$EXPRESS_BRANCH"
 fi
+
+# Fetch and copy template
+source "$UTILS_DIR/git_template.sh" "$REPO_URL" "$BRANCH" .
