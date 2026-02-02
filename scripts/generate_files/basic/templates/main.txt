@@ -1,0 +1,5 @@
+import { databaseConfig } from "./config/database";
+
+console.log("🚀 App started");
+console.log("Mode:", "$PATTERN");
+console.log("DB:", databaseConfig.database);

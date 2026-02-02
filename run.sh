@@ -73,12 +73,14 @@ if [ "$DATABASE" != "none" ]; then
     echo "1) drizzle"
     echo "2) prisma"
     echo "3) mysql2"
-    read -p "Enter choice (1-3): " ORM_OPT
+    echo "0) None"
+    read -p "Enter choice (0-3): " ORM_OPT
     
     case $ORM_OPT in
       1) ORM="drizzle" ;;
       2) ORM="prisma" ;;
       3) ORM="mysql2" ;;
+      0) ORM="none" ;;
       *) echo "❌ Invalid ORM option for MySQL"; exit 1 ;;
     esac
 
@@ -86,11 +88,13 @@ if [ "$DATABASE" != "none" ]; then
     # postgresql -> drizzle, prisma
     echo "1) drizzle"
     echo "2) prisma"
-    read -p "Enter choice (1-2): " ORM_OPT
+    echo "0) None"
+    read -p "Enter choice (0-2): " ORM_OPT
 
     case $ORM_OPT in
       1) ORM="drizzle" ;;
       2) ORM="prisma" ;;
+      0) ORM="none" ;;
       *) echo "❌ Invalid ORM option for PostgreSQL"; exit 1 ;;
     esac
 
@@ -98,11 +102,13 @@ if [ "$DATABASE" != "none" ]; then
     # mongodb -> prisma, mongoose
     echo "1) prisma"
     echo "2) mongoose"
-    read -p "Enter choice (1-2): " ORM_OPT
+    echo "0) None"
+    read -p "Enter choice (0-2): " ORM_OPT
 
     case $ORM_OPT in
       1) ORM="prisma" ;;
       2) ORM="mongoose" ;;
+      0) ORM="none" ;;
       *) echo "❌ Invalid ORM option for MongoDB"; exit 1 ;;
     esac
   fi
